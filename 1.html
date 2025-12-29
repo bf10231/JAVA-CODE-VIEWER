@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java代码展示 - BaseDao数据库工具类</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .code-container {
+            background: #2d2d2d;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .code-header {
+            background: #1e1e1e;
+            padding: 15px 20px;
+            border-bottom: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .file-name {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+        
+        .code-content {
+            padding: 25px;
+            overflow-x: auto;
+        }
+        
+        pre {
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+        
+        .info-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .info-card h4 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📦 BaseDao 数据库工具类</h1>
+            <div class="subtitle">Java JDBC数据库连接与操作封装类</div>
+        </header>
+        
+        <div class="content">
+            <div class="info-section">
+                <h3>📖 类说明</h3>
+                <p>BaseDao类是一个通用的数据库访问工具类，封装了JDBC的基本操作，包括数据库连接、资源关闭、增删改查等常用功能。</p >
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>🎯 主要功能</h4>
+                        <ul>
+                            <li>数据库连接管理</li>
+                            <li>SQL语句执行</li>
+                            <li>资源自动释放</li>
+                            <li>事务处理支持</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h4>🔧 技术特点</h4>
+                        <ul>
+                            <li>使用JDBC原生接口</li>
+                            <li>MySQL数据库驱动</li>
+                            <li>预编译语句支持</li>
+                            <li>异常处理机制</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h4>⚙️ 配置信息</h4>
+                        <ul>
+                            <li>数据库：MySQL 5.7+</li>
+                            <li>驱动：com.mysql.jdbc.Driver</li>
+                            <li>默认端口：3306</li>
+                            <li>编码：UTF-8</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="file-name">📄 BaseDao.java</div>
+                    <button class="copy-btn" onclick="copyCode()">📋 复制代码</button>
+                </div>
+                <div class="code-content">
+                    <pre><code class="language-java">package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/**
+ * 数据库工具类
+ * @author Administrator
+ */
+public class BaseDao {
+    public String url = "jdbc:mysql://localhost:3306/leavesys";//数据库连接字符串
+    public String user = "root";
+    public String password = "123456";
+    
+    /**
+     * 获取连接对象
+     * @return 连接对象
+     */
+    public Connection getConnection(){
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");//加载驱动包
+            conn = DriverManager.getConnection(url, user, password);//获取连接对象
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
+    
+    /**
+     * 撤销相关资源
+     * @param conn 连接对象
+     * @param stmt stmt对象
+     * @param rs   rs对象
+     */
+    public void closeAll(Connection conn,Statement stmt,ResultSet rs){
+        if(rs!=null){
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(stmt!=null){
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(conn!=null){
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    /**
+     * 增删改的通用方法
+     * @param sql 需要执行增删改的SQL语句
+     * @return 受影响的行数
+     */
+    public int excuteUpdate(String sql){
+        Connection conn = null;
+        Statement stmt = null;
+        
+        int count = 0;//记录受影响的行数
+        try {
+            conn = getConnection();//得到conn对象
+            stmt = conn.createStatement();//创建stmt对象
+            count = stmt.executeUpdate(sql);//执行SQL语句
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            closeAll(conn,stmt,null);//关闭资源
+        }
+        return count;
+    }
+}</code></pre>
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <h3>💡 使用说明</h3>
+                <p>在使用此类前，请确保：</p >
+                <ol>
+                    <li>项目中已添加MySQL JDBC驱动jar包</li>
+                    <li>数据库服务已启动</li>
+                    <li>leavesys数据库已创建</li>
+                    <li>数据库用户root的密码已设置为123456（生产环境请修改）</li>
+                </ol>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2024 Java代码展示网站 | 数据库工具类示例</p >
+            <p>仅供学习参考使用，生产环境请根据实际情况进行修改和安全加固</p >
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script>
+        function copyCode() {
+            const code = document.querySelector('.code-content code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ 已复制！';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+        
+        // 页面加载时高亮代码
+        document.addEventListener('DOMContentLoaded', function() {
+            Prism.highlightAll();
+        });
+    </script>
+</body>
+</html>
